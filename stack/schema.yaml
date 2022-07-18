@@ -1,7 +1,7 @@
 title: "Superset on OCI with MDS"
 description: "Superset on OCI with MySQL Database Service"
-schemaVersion: 1.0.0
-version: "202100903"
+schemaVersion: 1.1.0
+version: "202207181"
 locale: "en"
 
 
@@ -15,6 +15,8 @@ variableGroups:
       - ssh_authorized_keys_path
       - ssh_private_key_path
       - private_key_path
+      - dns_label
+      - label_prefix
 
   - title: Required Variables
     visible: true
@@ -87,6 +89,10 @@ variables:
     title: Load sample data in Superset
     type: boolean
     default: false
+
+  mysql_shape:
+    type: string
+    title: "Enter the exact MySQL Shape to use"
 
   node_shape:
     type: oci:core:instanceshape:name

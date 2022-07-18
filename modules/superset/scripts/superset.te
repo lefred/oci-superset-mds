@@ -1,0 +1,19 @@
+module superset 1.0;
+
+require {
+	type soundd_port_t;
+	type httpd_t;
+	type user_home_t;
+	class file read;
+	class file open;
+	class tcp_socket name_connect;
+}
+
+#============= httpd_t ==============
+
+#!!!! This avc is allowed in the current policy
+allow httpd_t soundd_port_t:tcp_socket name_connect;
+
+#!!!! This avc can be allowed using the boolean 'httpd_read_user_content'
+allow httpd_t user_home_t:file read;
+allow httpd_t user_home_t:file open;

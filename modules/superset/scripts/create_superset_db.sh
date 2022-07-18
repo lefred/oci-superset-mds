@@ -3,6 +3,7 @@
 # Install MySQL Shell Community Edition 8.0
 dnf -y module disable mysql
 rpm -ivh https://dev.mysql.com/get/mysql80-community-release-$(uname -r | sed 's/^.*\(el[0-9]\+\).*$/\1/')-1.noarch.rpm
+rpm --import https://repo.mysql.com/RPM-GPG-KEY-mysql-2022
 dnf install -y mysql-shell-${mysql_version} mysql-community-client-${mysql_version}
 mkdir ~${user}/.mysqlsh
 cp /usr/share/mysqlsh/prompt/prompt_256pl+aw.json ~${user}/.mysqlsh/prompt.json
@@ -16,15 +17,15 @@ echo "MySQL Shell successfully installed !"
 
 mysqlsh --user ${admin_username} --password=${admin_password} --host ${mds_ip} --sql -e "CREATE DATABASE ${superset_schema};"
 mysqlsh --user ${admin_username} --password=${admin_password} --host ${mds_ip} --sql -e "CREATE USER ${superset_name} identified by '${superset_password}';"
-mysqlsh --user ${admin_username} --passwo\rd=${admin_password} --host ${mds_ip} --sql -e "GRANT ALL PRIVILEGES ON ${superset_schema}.* TO ${superset_name};"
+mysqlsh --user ${admin_username} --password=${admin_password} --host ${mds_ip} --sql -e "GRANT ALL PRIVILEGES ON ${superset_schema}.* TO ${superset_name};"
 
 echo "Superset Database and User created !"
 echo "SUPERSET USER = ${superset_name}"
 echo "SUPERSET SCHEMA = ${superset_schema}"
 
-mkdir /root/python
+mkdir /home/opc/python
 
-cat << 'EOF' > /root/python/superset_config.py
+cat << 'EOF' > /home/opc/python/superset_config.py
 
 # Superset specific config
 ROW_LIMIT = 5000
@@ -53,3 +54,5 @@ WTF_CSRF_TIME_LIMIT = 60 * 60 * 24 * 365
 MAPBOX_API_KEY = ''
 
 EOF
+
+chown -R opc /home/opc/python

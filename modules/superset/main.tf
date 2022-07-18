@@ -2,10 +2,20 @@
 # Init Script Files
 
 locals {
-  superset_script         = "~/install_superset.sh"
-  security_script         = "~/configure_local_security.sh"
-  create_superset_db      = "~/create_superset_db.sh"
-  superset_service_script = "~/superset.service"
+  superset_script            = "~/install_superset.sh"
+  security_script            = "~/configure_local_security.sh"
+  create_superset_db         = "~/create_superset_db.sh"
+  superset_service_script    = "~/superset.service"
+  superset_httpd_script      = "~/25-superset.conf"
+  superset_sepolicy_script   = "~/superset.te"
+}
+
+data "template_file" "install_superset_httpd" {
+  template = file("${path.module}/scripts/25-superset.conf")
+}
+
+data "template_file" "install_superset_policy" {
+  template = file("${path.module}/scripts/superset.te")
 }
 
 data "template_file" "install_superset_service" {
@@ -16,6 +26,10 @@ data "template_file" "install_superset" {
   template = file("${path.module}/scripts/install_superset.sh")
   vars = {
     load_samples = var.load_samples
+    admin_password    = var.admin_password
+    admin_username    = var.admin_username
+    mds_ip            = var.mds_ip
+    superset_schema   = var.superset_schema
     superset_admin_username = var.superset_admin_username
     superset_admin_password = var.superset_admin_password
   }
@@ -102,6 +116,37 @@ resource "oci_core_instance" "Superset" {
   }
 
   provisioner "file" {
+    content     = data.template_file.install_superset_httpd.rendered
+    destination = local.superset_httpd_script
+
+    connection  {
+      type        = "ssh"
+      host        = self.public_ip
+      agent       = false
+      timeout     = "5m"
+      user        = var.vm_user
+      private_key = var.ssh_private_key
+
+    }
+  }
+
+  provisioner "file" {
+    content     = data.template_file.install_superset_policy.rendered
+    destination = local.superset_sepolicy_script
+
+    connection  {
+      type        = "ssh"
+      host        = self.public_ip
+      agent       = false
+      timeout     = "5m"
+      user        = var.vm_user
+      private_key = var.ssh_private_key
+
+    }
+  }
+
+
+  provisioner "file" {
     content     = data.template_file.configure_local_security.rendered
     destination = local.security_script
 
@@ -149,7 +194,7 @@ resource "oci_core_instance" "Superset" {
        "chmod +x ${local.create_superset_db}",
        "sudo ${local.create_superset_db}",
        "chmod +x ${local.superset_script}",
-       "sudo ${local.superset_script}"
+       "${local.superset_script}"
     ]
 
    }

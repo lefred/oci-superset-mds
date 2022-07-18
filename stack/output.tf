@@ -8,6 +8,7 @@ output "superset_admin_username" {
 
 output "superset_admin_password" {
   value = module.superset.superset_admin_password
+  sensitive = true
 }
 
 output "superset_db_user" {
@@ -16,6 +17,7 @@ output "superset_db_user" {
 
 output "superset_db_password" {
   value = var.superset_password
+  sensitive = true
 }
 
 output "mds_instance_ip" {

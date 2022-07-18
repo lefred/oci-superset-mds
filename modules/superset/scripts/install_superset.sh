@@ -3,32 +3,39 @@
 
 SAMPLES=${load_samples}
 
-dnf install -y python38 python38-pip
-dnf install -y gcc gcc-c++ libffi-devel python38-devel python38-pip python38-wheel openssl-devel cyrus-sasl-devel openldap-devel
-pip3.8 install apache-superset --no-input
-pip3.8 install mysql-connector-python --no-input
-export PYTHONPATH=$PYTHONPATH:/root/python
-pip3.8 uninstall Flask-WTF --no-input
-pip3.8 install Flask-WTF==0.14.3 --no-input
-pip3.8 install gunicorn==20.0.2 --no-input
-pip3.8 install gevent --no-input
-pip3.8 install pillow --no-input
+sudo dnf install -y python38 python38-pip httpd
+sudo dnf install -y gcc gcc-c++ libffi-devel python38-devel python38-pip python38-wheel openssl-devel cyrus-sasl-devel openldap-devel
+export PYTHONPATH=$PYTHONPATH:/home/opc/python
+pip3.8 install Flask-WTF==0.15.1 --user --no-input
+pip3.8 install gunicorn --user --no-input
+pip3.8 install werkzeug==2.0.3 --user --no-input
+pip3.8 install gevent --user --no-input
+pip3.8 install pillow --user --no-input
+pip3.8 install apache-superset --user --no-input
+pip3.8 install mysql-connector-python --user --no-input
 
 export FLASK_APP=superset.app
-/usr/local/bin/flask fab create-admin --username "${superset_admin_username}" --firstname "admin" --lastname "admin" --email "nomail@acme.org" --password "${superset_admin_password}"
-/usr/local/bin/superset db upgrade
-/usr/local/bin/superset init
+/home/opc/.local/bin/flask fab create-admin --username "${superset_admin_username}" --firstname "admin" --lastname "admin" --email "nomail@acme.org" --password "${superset_admin_password}"
+/home/opc/.local/bin/superset db upgrade
+# there is an alambic issue https://github.com/apache/superset/issues/20685
+mysqlsh --user ${admin_username} --password=${admin_password} --host ${mds_ip} --sql -e "alter table  ${superset_schema}.dbs drop check dbs_chk_9;"
+/home/opc/.local/bin/superset db upgrade
+/home/opc/.local/bin/superset init
 
 if [ "$SAMPLES" == "true" ]
 then
-  /usr/local/bin/superset load-examples
+  /home/opc/.local/bin/superset load-examples
   echo "Superset examples loaded !"
 fi
 
-mv ~opc/superset.service   /etc/systemd/system/superset.service
-chown root. /etc/systemd/system/superset.service
-chcon system_u:object_r:systemd_unit_file_t:s0 /etc/systemd/system/superset.service
-systemctl daemon-reload
-systemctl start superset
+mkdir -p /home/opc/.local/run/superset/ 
+
+sudo mv ~opc/superset.service   /etc/systemd/system/superset.service
+sudo mv ~opc/25-superset.conf   /etc/httpd/conf.d/
+sudo chown root. /etc/systemd/system/superset.service
+sudo chcon system_u:object_r:systemd_unit_file_t:s0 /etc/systemd/system/superset.service
+sudo systemctl daemon-reload
+sudo systemctl start superset
+sudo systemctl start httpd
 
 echo "Superset installed and started !"
