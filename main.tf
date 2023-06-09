@@ -34,11 +34,11 @@ data "template_file" "ad_names" {
   template = lookup(data.oci_identity_availability_domains.ad.availability_domains[count.index], "name")
 }
 
-
 data "oci_mysql_mysql_configurations" "shape" {
     compartment_id = var.compartment_ocid
-    type = ["DEFAULT"]
-    shape_name = var.mysql_shape
+    type           = ["DEFAULT"]
+    state          = "ACTIVE"
+    shape_name     = var.mysql_shape
 }
 
 resource "oci_core_virtual_network" "mysqlvcn" {
@@ -220,7 +220,7 @@ module "mds-instance" {
   admin_password = var.admin_password
   admin_username = var.admin_username
   availability_domain = data.template_file.ad_names.*.rendered[0]
-  configuration_id = data.oci_mysql_mysql_configurations.shape.configurations[0].id
+  configuration_id = "${data.oci_mysql_mysql_configurations.shape.configurations[0].id[var.region]}"
   compartment_ocid = var.compartment_ocid
   subnet_id = local.private_subnet_id
   display_name = var.mds_instance_name

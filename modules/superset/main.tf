@@ -2,12 +2,12 @@
 # Init Script Files
 
 locals {
-  superset_script            = "~/install_superset.sh"
-  security_script            = "~/configure_local_security.sh"
-  create_superset_db         = "~/create_superset_db.sh"
-  superset_service_script    = "~/superset.service"
-  superset_httpd_script      = "~/25-superset.conf"
-  superset_sepolicy_script   = "~/superset.te"
+  superset_script            = "/home/opc/install_superset.sh"
+  security_script            = "/home/opc/configure_local_security.sh"
+  create_superset_db         = "/home/opc/create_superset_db.sh"
+  superset_service_script    = "/home/opc/superset.service"
+  superset_httpd_script      = "/home/opc/25-superset.conf"
+  superset_sepolicy_script   = "/home/opc/superset.te"
 }
 
 data "template_file" "install_superset_httpd" {

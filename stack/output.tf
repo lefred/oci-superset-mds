@@ -1,5 +1,5 @@
 output "superset_public_ip" {
-  value = module.superset.public_ip
+  value = "http://${module.superset.public_ip}"
 }
 
 output "superset_admin_username" {

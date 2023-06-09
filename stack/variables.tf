@@ -68,7 +68,7 @@ variable "existing_mds_instance_ocid" {
 
 variable "vcn" {
   description = "VCN Name"
-  default     = "mysql_vcn"
+  default     = "superset_vcn"
 }
 
 variable "vcn_cidr" {

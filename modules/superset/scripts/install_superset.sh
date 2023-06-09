@@ -4,11 +4,13 @@
 SAMPLES=${load_samples}
 
 sudo dnf install -y python38 python38-pip httpd
-sudo dnf install -y gcc gcc-c++ libffi-devel python38-devel python38-pip python38-wheel openssl-devel cyrus-sasl-devel openldap-devel
+sudo dnf install -y gcc gcc-c++ libffi-devel python38-devel python38-pip python3-wheel openssl-devel cyrus-sasl-devel openldap-devel
 export PYTHONPATH=$PYTHONPATH:/home/opc/python
-pip3.8 install Flask-WTF==0.15.1 --user --no-input
+pip3.8 install Flask-WTF=='1.0.1' --user --no-input
+pip3.8 install sqlparse=='0.4.3' --user --no-input
+pip3.8 install gevent --user --no-input
 pip3.8 install gunicorn --user --no-input
-pip3.8 install werkzeug==2.0.3 --user --no-input
+pip3.8 install werkzeug --user --no-input
 pip3.8 install gevent --user --no-input
 pip3.8 install pillow --user --no-input
 pip3.8 install apache-superset --user --no-input

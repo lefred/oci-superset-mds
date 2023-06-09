@@ -1,7 +1,7 @@
 title: "Superset on OCI with MDS"
 description: "Superset on OCI with MySQL Database Service"
-schemaVersion: 1.1.0
-version: "202207181"
+schemaVersion: 1.2.0
+version: "202306081"
 locale: "en"
 
 
@@ -304,3 +304,39 @@ variables:
     minLength: 2
     maxLength: 14
     pattern: "^[a-zA-Z][a-zA-Z0-9]+$"
+
+outputGroups:
+- title: "Services IP"
+  outputs:
+    - superset_public_ip
+    - mds_instance_ip
+- title: "Superset Admin Credentials"
+  outputs:
+    - superset_admin_username
+    - superset_admin_password
+- title: "Superset Database Credentials"
+  outputs:
+    - superset_db_user
+    - superset_db_password
+- title: "SSH Private Key"
+  outputs:
+    - ssh_private_key
+
+outputs:
+  superset_public_ip:
+    title: "Your new deployed Superset"
+  mds_instance_ip:
+    title: "MySQL Database Service Private IP"
+  superset_admin_username:
+    title: "Superset Admin User"
+  superset_admin_password:
+    title: "Superset Admin Password"
+    sensitive: true
+  superset_db_user:
+    title: "Superset MySQL User"   
+  superset_db_password:
+    title: "Superset MySQL User's Password"
+    sensitive: true
+  ssh_private_key:
+    title: "Generated SSH private key"
+    sensitive: true  
