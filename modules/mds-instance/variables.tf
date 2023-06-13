@@ -1,3 +1,7 @@
+variable "region" {
+  description = "OCI Region"
+}
+
 variable "compartment_ocid" {
   description = "Compartment's OCID where VCN will be created. "
 }
@@ -29,10 +33,6 @@ variable "admin_username" {
 
 variable "admin_password" {
     description = "Password for the admin user for MDS"
-}
-
-variable "configuration_id" {
-    description = "MySQL Instance Configuration ID"
 }
 
 variable "mysql_data_storage_in_gb" {

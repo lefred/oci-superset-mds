@@ -1,3 +1,7 @@
+variable "region" {
+  description = "OCI Region"
+}
+
 variable "mysql_version" {
   description = "The version of the Mysql Shell."
   default     = "8.0.33"

@@ -10,6 +10,10 @@ locals {
   superset_sepolicy_script   = "/home/opc/superset.te"
 }
 
+provider "oci" {
+  region           = var.region
+}
+
 data "template_file" "install_superset_httpd" {
   template = file("${path.module}/scripts/25-superset.conf")
 }
