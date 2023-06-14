@@ -17,6 +17,9 @@ variableGroups:
       - private_key_path
       - dns_label
       - label_prefix
+      - fingerprint
+      - node_image_id
+      - user_ocid
 
   - title: Required Variables
     visible: true
