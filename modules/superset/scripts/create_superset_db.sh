@@ -4,7 +4,7 @@
 dnf -y module disable mysql
 rpm -ivh https://dev.mysql.com/get/mysql80-community-release-$(uname -r | sed 's/^.*\(el[0-9]\+\).*$/\1/')-1.noarch.rpm
 rpm --import https://repo.mysql.com/RPM-GPG-KEY-mysql-2022
-dnf install -y mysql-shell-${mysql_version} mysql-community-client-${mysql_version}
+dnf install -y mysql-shell-${mysql_version} mysql-community-client-${mysql_version} mysql-community-devel-${mysql_version}
 mkdir ~${user}/.mysqlsh
 cp /usr/share/mysqlsh/prompt/prompt_256pl+aw.json ~${user}/.mysqlsh/prompt.json
 echo '{
@@ -46,7 +46,7 @@ SQLALCHEMY_DATABASE_URI = 'mysql+mysqlconnector://${superset_name}:${superset_pa
 # Flask-WTF flag for CSRF
 WTF_CSRF_ENABLED = True
 # Add endpoints that need to be exempt from CSRF protection
-WTF_CSRF_EXEMPT_LIST = []
+WTF_CSRF_EXEMPT_LIST = ["superset.views.core.log", "superset.charts.api.data"]
 # A CSRF token that expires in 1 year
 WTF_CSRF_TIME_LIMIT = 60 * 60 * 24 * 365
 

@@ -15,6 +15,8 @@ pip3.8 install gevent --user --no-input
 pip3.8 install pillow --user --no-input
 pip3.8 install apache-superset --user --no-input
 pip3.8 install mysql-connector-python --user --no-input
+pip3.8 install mysqlclient --user --no-input
+pip3.8 install pymysql --user --no-input
 
 export FLASK_APP=superset.app
 /home/opc/.local/bin/flask fab create-admin --username "${superset_admin_username}" --firstname "admin" --lastname "admin" --email "nomail@acme.org" --password "${superset_admin_password}"

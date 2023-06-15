@@ -8,6 +8,7 @@ PIDFile = /run/superset/superset.pid
 User = opc
 Group = opc
 WorkingDirectory = /home/opc/python
+Environment="LD_PRELOAD=/lib64/libstdc++.so.6"
 Environment="PYTHONPATH=$PYTHONPATH:/home/opc/python"
 Environment="FLASK_APP=superset.app"
 ExecStart = /usr/bin/env /home/opc/.local/bin/gunicorn  -w 10 -k gevent --timeout 120 -b 0.0.0.0:8000 --limit-request-line 0 --limit-request-field_size 0 --pid /home/opc/.local/run/superset/superset.pid  "superset.app:create_app()"
