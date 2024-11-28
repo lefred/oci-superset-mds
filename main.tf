@@ -89,7 +89,7 @@ resource "oci_core_route_table" "private_route_table" {
 
 resource "oci_core_security_list" "public_security_list" {
   compartment_id = var.compartment_ocid
-  display_name = "Allow Public SSH Connections to Matomo"
+  display_name = "Allow Public SSH Connections to Superset"
   vcn_id = local.vcn_id
   egress_security_rules {
     destination = "0.0.0.0/0"
@@ -109,7 +109,7 @@ resource "oci_core_security_list" "public_security_list" {
 
 resource "oci_core_security_list" "public_security_list_http" {
   compartment_id = var.compartment_ocid
-  display_name = "Allow HTTP(S) to Matomo"
+  display_name = "Allow HTTP(S) to Superset"
   vcn_id = local.vcn_id
   egress_security_rules {
     destination = "0.0.0.0/0"

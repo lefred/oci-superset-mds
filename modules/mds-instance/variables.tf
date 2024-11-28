@@ -23,7 +23,7 @@ variable "subnet_id" {
 
 variable "mysql_shape" {
   description = "Instance shape to use."
-  default     = "MySQL.HeatWave.VM.Standard.E3"
+  default     = "MySQL.8"
 }
 
 variable "admin_username" {

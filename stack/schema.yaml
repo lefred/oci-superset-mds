@@ -1,7 +1,7 @@
-title: "Superset on OCI with MDS"
+title: "Superset on OCI with HeatWave"
 description: "Superset on OCI with MySQL Database Service"
-schemaVersion: 1.2.0
-version: "202306081"
+schemaVersion: 1.3.0
+version: "202411281"
 locale: "en"
 
 
@@ -34,7 +34,7 @@ variableGroups:
       - superset_admin_username
       - superset_admin_password
 
-  - title: Use HA for MDS
+  - title: Use HA for HeatWave MySQL
     visibale: true
     variables:
       - deploy_mds_ha
@@ -123,7 +123,16 @@ variables:
             - "VM.Standard.E4.Flex"
           - eq:
             - node_shape
+            - "VM.Standard.E5.Flex"
+          - eq:
+            - node_shape
             - "VM.Standard.A1.Flex"
+          - eq:
+            - node_shape
+            - "VM.Standard.A2.Flex"
+          - eq:
+            - node_shape
+            - "VM.Standard3.Flex"
           - eq:
             - node_shape
             - "VM.Optimized3.Flex"
@@ -148,7 +157,16 @@ variables:
             - "VM.Standard.E4.Flex"
           - eq:
             - node_shape
+            - "VM.Standard.E5.Flex"
+          - eq:
+            - node_shape
             - "VM.Standard.A1.Flex"
+          - eq:
+            - node_shape
+            - "VM.Standard.A2.Flex"
+          - eq:
+            - node_shape
+            - "VM.Standard3.Flex"
           - eq:
             - node_shape
             - "VM.Optimized3.Flex"
@@ -215,7 +233,7 @@ variables:
   existing_mds_instance_ocid:
     type: string
     visible: ${useExistingInfra}
-    title: MDS instance OCID
+    title: HeatWave MySQL instance OCID
     description: OCID of existing MySQL Instance to use
 
   vcn:
@@ -242,7 +260,7 @@ variables:
   admin_username:
     type: string
     required: true
-    title: MDS Admin Username
+    title: HeatWave MySQL Admin Username
     description: MySQL Database Service's admin username
     minLength: 1
     maxLength: 14
@@ -251,12 +269,12 @@ variables:
   admin_password:
     type: password
     required: true
-    title: MDS Admin User's Password
+    title: HeatWave MySQL Admin User's Password
     description: Password for MySQL Database Service's admin user
     pattern: "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+\\-=\\[\\]{};':\\\"\\\\|,.<>\\/?]).{8,32}$"
 
   deploy_mds_ha:
-    title: Deploy High Availability for MDS
+    title: Deploy High Availability for HeatWave MySQL
     type: boolean
     default: false
 

@@ -4,7 +4,7 @@ variable "region" {
 
 variable "mysql_version" {
   description = "The version of the Mysql Shell."
-  default     = "8.0.33"
+  default     = "8.4.3"
 }
 
 variable "compartment_ocid" {
@@ -116,7 +116,9 @@ locals {
   compute_flexible_shapes = [
     "VM.Standard.E3.Flex",
     "VM.Standard.E4.Flex",
+    "VM.Standard.E5.Flex",
     "VM.Standard.A1.Flex",
+    "VM.Standard.A2.Flex",
     "VM.Standard3.Flex",
     "VM.Optimized3.Flex"
   ]

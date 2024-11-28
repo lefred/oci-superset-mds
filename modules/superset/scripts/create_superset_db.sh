@@ -2,9 +2,10 @@
 
 # Install MySQL Shell Community Edition 8.0
 dnf -y module disable mysql
-rpm -ivh https://dev.mysql.com/get/mysql80-community-release-$(uname -r | sed 's/^.*\(el[0-9]\+\).*$/\1/')-1.noarch.rpm
+rpm -ivh https://dev.mysql.com/get/mysql84-community-release-$(uname -r | sed 's/^.*\(el[0-9]\+\).*$/\1/')-1.noarch.rpm
 rpm --import https://repo.mysql.com/RPM-GPG-KEY-mysql-2022
-dnf install -y mysql-shell-${mysql_version} mysql-community-client-${mysql_version} mysql-community-devel-${mysql_version}
+dnf install -y --enablerepo mysql-tools-innovation-community mysql-shell mysql-community-client mysql-community-devel  mysql-community-client mysql-community-devel --enablerepo mysql-innovation-community
+
 mkdir ~${user}/.mysqlsh
 cp /usr/share/mysqlsh/prompt/prompt_256pl+aw.json ~${user}/.mysqlsh/prompt.json
 echo '{
